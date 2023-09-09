@@ -1,25 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Data, data } from "./Constant";
 
 function App() {
+  const [value, setValue] = useState<string>("");
+
+  const [filterData, setFilterData] = useState<Data[]>([]);
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const search = data.filter((el: Data) => {
+      return el.description.includes(value);
+    });
+    setFilterData(search);
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>검색 기능 구현</h1>
+
+      <form onSubmit={onSubmit}>
+        <label htmlFor="descriptionSearch">설명 검색</label>
+        <input type="text" onChange={onChange} value={value} id="descriptionSearch" />
+        <button>검색</button>
+      </form>
+      <p>{value || "검색결과값 이 비어있습니다."}</p>
+
+      {filterData.map((el: any) => {
+        return (
+          <div key={el.id}>
+            <h3>name : {el.name}</h3>
+            <p>color : {el.color}</p>
+            <p>description : {el.description}</p>
+            <hr />
+          </div>
+        );
+      })}
+    </>
   );
 }
 
