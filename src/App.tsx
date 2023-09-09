@@ -3,8 +3,8 @@ import { Data, data } from "./Constant";
 
 function App() {
   const [value, setValue] = useState<string>("");
-
   const [filterData, setFilterData] = useState<Data[]>([]);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const search = data.filter((el: Data) => {
